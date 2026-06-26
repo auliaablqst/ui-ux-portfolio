@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skylens — Weather Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0F1729;
+    min-height: 100vh;
+    color: white;
+    padding: 2.5rem 1rem;
+  }
+
+  .app { max-width: 680px; margin: 0 auto; }
+
+  /* Header */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .logo { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+  .logo span { color: #60A5FA; }
+  .city-tabs { display: flex; gap: 6px; }
+  .city-tab {
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 5px 14px;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: transparent;
+    color: rgba(255,255,255,.5);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .city-tab.active {
+    background: rgba(96,165,250,.2);
+    border-color: #60A5FA;
+    color: #60A5FA;
+  }
+
+  /* Main card */
+  .main-card {
+    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #1D4ED8 100%);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .main-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+  }
+  .main-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: 60px;
+    width: 150px; height: 150px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .city-name {
+    font-size: 14px;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .weather-main {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 1rem 0;
+  }
+  .temp {
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .temp sup { font-size: 24px; font-weight: 400; vertical-align: super; }
+  .weather-icon { font-size: 72px; line-height: 1; position: relative; z-index: 1; }
+  .weather-desc { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: rgba(255,255,255,.9); }
+  .weather-meta {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .meta-item { font-size: 12px; color: rgba(255,255,255,.65); }
+  .meta-val { font-size: 14px; font-weight: 500; color: white; margin-top: 1px; }
+
+  /* Grid cards */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 10px; }
+
+  .card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px;
+    padding: 16px;
+  }
+  .card-label {
+    font-size: 11px;
+    color: rgba(255,255,255,.45);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: 10px;
+  }
+
+  /* Hourly */
+  .hourly-list { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .hourly-list::-webkit-scrollbar { display: none; }
+  .hour-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.06);
+    min-width: 58px;
+    font-size: 11px;
+    color: rgba(255,255,255,.55);
+    transition: background .15s;
+    cursor: default;
+  }
+  .hour-item.active {
+    background: rgba(96,165,250,.25);
+    border: 1px solid rgba(96,165,250,.4);
+    color: white;
+  }
+  .hour-icon { font-size: 18px; }
+  .hour-temp { font-size: 13px; font-weight: 500; color: white; }
+
+  /* Daily forecast */
+  .daily-list { display: flex; flex-direction: column; gap: 4px; }
+  .day-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    gap: 10px;
+  }
+  .day-item:last-child { border-bottom: none; }
+  .day-name { font-size: 13px; width: 80px; color: rgba(255,255,255,.7); }
+  .day-icon { font-size: 18px; }
+  .day-bar-wrap { flex: 1; display: flex; align-items: center; gap: 6px; }
+  .day-min { font-size: 12px; color: rgba(255,255,255,.4); width: 28px; text-align: right; }
+  .day-bar-bg { flex: 1; height: 4px; background: rgba(255,255,255,.1); border-radius: 99px; overflow: hidden; }
+  .day-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #60A5FA, #F59E0B); }
+  .day-max { font-size: 12px; font-weight: 500; width: 28px; }
+
+  /* Detail cards */
+  .detail-val { font-size: 26px; font-weight: 500; margin-bottom: 2px; }
+  .detail-sub { font-size: 11px; color: rgba(255,255,255,.45); }
+
+  /* Arc gauge */
+  .gauge-wrap { display: flex; align-items: center; justify-content: center; }
+  .gauge { position: relative; width: 80px; height: 50px; overflow: hidden; }
+  .gauge svg { position: absolute; top: 0; left: 0; }
+
+  /* Air quality */
+  .aqi-val { font-size: 26px; font-weight: 500; }
+  .aqi-label { font-size: 11px; color: #22C55E; margin-top: 2px; }
+  .aqi-bar { display: flex; height: 4px; border-radius: 99px; overflow: hidden; margin-top: 10px; gap: 2px; }
+  .aqi-seg { flex: 1; border-radius: 99px; }
+
+  /* Sunrise */
+  .sun-row { display: flex; justify-content: space-between; margin-top: 8px; }
+  .sun-item { text-align: center; }
+  .sun-time { font-size: 16px; font-weight: 500; }
+  .sun-lbl { font-size: 10px; color: rgba(255,255,255,.45); margin-top: 2px; }
+  .sun-arc { position: relative; height: 40px; margin: 6px 0; }
+  .sun-arc svg { width: 100%; height: 100%; }
+
+  /* Selector highlight */
+  .city-tab:hover { border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.8); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="top-bar">
+    <div class="logo">Sky<span>lens</span></div>
+    <div class="city-tabs">
+      <button class="city-tab active" onclick="setCity(0,this)">Malang</button>
+      <button class="city-tab" onclick="setCity(1,this)">Surabaya</button>
+      <button class="city-tab" onclick="setCity(2,this)">Jakarta</button>
+    </div>
+  </div>
+
+  <!-- Main card -->
+  <div class="main-card" id="mainCard">
+    <div class="city-name">📍 <span id="cityName">Malang, Jawa Timur</span></div>
+    <div class="weather-main">
+      <div>
+        <div class="temp" id="mainTemp">24<sup>°</sup></div>
+        <div class="weather-desc" id="mainDesc">Berawan Sebagian</div>
+      </div>
+      <div class="weather-icon" id="mainIcon">⛅</div>
+    </div>
+    <div class="weather-meta">
+      <div class="meta-item">Terasa seperti<div class="meta-val" id="feelsLike">22°</div></div>
+      <div class="meta-item">Kelembaban<div class="meta-val" id="humidity">78%</div></div>
+      <div class="meta-item">Angin<div class="meta-val" id="wind">12 km/h</div></div>
+      <div class="meta-item">UV Index<div class="meta-val" id="uv">4</div></div>
+    </div>
+  </div>
+
+  <!-- Hourly -->
+  <div class="card" style="margin-bottom:10px;">
+    <div class="card-label">Prakiraan Per Jam</div>
+    <div class="hourly-list" id="hourlyList"></div>
+  </div>
+
+  <!-- Daily + Detail -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">7 Hari ke Depan</div>
+      <div class="daily-list" id="dailyList"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <!-- Air Quality -->
+      <div class="card">
+        <div class="card-label">Kualitas Udara</div>
+        <div class="aqi-val">52</div>
+        <div class="aqi-label">✓ Baik</div>
+        <div class="aqi-bar">
+          <div class="aqi-seg" style="background:#22C55E;flex:2"></div>
+          <div class="aqi-seg" style="background:#F59E0B;flex:1;opacity:.3"></div>
+          <div class="aqi-seg" style="background:#EF4444;flex:1;opacity:.2"></div>
+        </div>
+      </div>
+      <!-- Sunrise -->
+      <div class="card">
+        <div class="card-label">Matahari</div>
+        <div class="sun-arc">
+          <svg viewBox="0 0 140 50" fill="none">
+            <path d="M10 45 Q70 -10 130 45" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+            <path d="M10 45 Q70 -10 130 45" stroke="#F59E0B" stroke-width="2" fill="none" stroke-dasharray="110 200"/>
+            <circle cx="10" cy="45" r="5" fill="#60A5FA"/>
+            <circle cx="130" cy="45" r="5" fill="#F59E0B"/>
+            <circle cx="88" cy="12" r="6" fill="#FBBF24"/>
+          </svg>
+        </div>
+        <div class="sun-row">
+          <div class="sun-item"><div class="sun-time">05:42</div><div class="sun-lbl">Terbit</div></div>
+          <div class="sun-item"><div class="sun-time">17:54</div><div class="sun-lbl">Terbenam</div></div>
+        </div>
+      </div>
+      <!-- Humidity detail -->
+      <div class="card">
+        <div class="card-label">Kelembaban & Tekanan</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div class="detail-val" id="humidDetail">78%</div><div class="detail-sub">Kelembaban</div></div>
+          <div style="text-align:right"><div class="detail-val">1012</div><div class="detail-sub">hPa</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CITIES = [
+  {
+    name: 'Malang, Jawa Timur', temp: 24, desc: 'Berawan Sebagian', icon: '⛅',
+    feels: 22, humidity: 78, wind: '12 km/h', uv: 4,
+    gradient: 'linear-gradient(135deg, #1E3A8A, #1D4ED8)',
+    hourly: [
+      {t:'06:00',i:'🌤',c:21},{t:'09:00',i:'⛅',c:23},{t:'12:00',i:'☁️',c:26,active:true},
+      {t:'15:00',i:'🌦',c:24},{t:'18:00',i:'🌧',c:21},{t:'21:00',i:'🌙',c:19}
+    ],
+    daily: [
+      {d:'Senin',i:'⛅',mn:18,mx:26,w:60},{d:'Selasa',i:'🌧',mn:17,mx:24,w:80},
+      {d:'Rabu',i:'🌤',mn:19,mx:27,w:30},{d:'Kamis',i:'☀️',mn:20,mx:29,w:10},
+      {d:'Jumat',i:'⛅',mn:19,mx:27,w:40},{d:'Sabtu',i:'🌦',mn:18,mx:25,w:60},
+      {d:'Minggu',i:'☀️',mn:20,mx:28,w:15}
+    ]
+  },
+  {
+    name: 'Surabaya, Jawa Timur', temp: 31, desc: 'Cerah Berawan', icon: '🌤',
+    feels: 34, humidity: 72, wind: '18 km/h', uv: 7,
+    gradient: 'linear-gradient(135deg, #92400E, #B45309)',
+    hourly: [
+      {t:'06:00',i:'☀️',c:28},{t:'09:00',i:'🌤',c:30},{t:'12:00',i:'☀️',c:33,active:true},
+      {t:'15:00',i:'⛅',c:31},{t:'18:00',i:'🌤',c:28},{t:'21:00',i:'🌙',c:26}
+    ],
+    daily: [
+      {d:'Senin',i:'☀️',mn:26,mx:33,w:10},{d:'Selasa',i:'🌤',mn:27,mx:34,w:20},
+      {d:'Rabu',i:'⛅',mn:25,mx:32,w:35},{d:'Kamis',i:'🌦',mn:24,mx:30,w:55},
+      {d:'Jumat',i:'🌤',mn:26,mx:33,w:20},{d:'Sabtu',i:'☀️',mn:27,mx:35,w:5},
+      {d:'Minggu',i:'☀️',mn:26,mx:34,w:10}
+    ]
+  },
+  {
+    name: 'Jakarta, DKI Jakarta', temp: 29, desc: 'Hujan Ringan', icon: '🌧',
+    feels: 33, humidity: 88, wind: '22 km/h', uv: 3,
+    gradient: 'linear-gradient(135deg, #1F2937, #374151)',
+    hourly: [
+      {t:'06:00',i:'🌦',c:27},{t:'09:00',i:'🌧',c:28},{t:'12:00',i:'⛈',c:29,active:true},
+      {t:'15:00',i:'🌧',c:28},{t:'18:00',i:'🌦',c:27},{t:'21:00',i:'☁️',c:26}
+    ],
+    daily: [
+      {d:'Senin',i:'🌧',mn:25,mx:29,w:85},{d:'Selasa',i:'⛈',mn:24,mx:28,w:90},
+      {d:'Rabu',i:'🌦',mn:25,mx:30,w:70},{d:'Kamis',i:'⛅',mn:26,mx:31,w:40},
+      {d:'Jumat',i:'🌤',mn:26,mx:32,w:20},{d:'Sabtu',i:'🌦',mn:25,mx:30,w:55},
+      {d:'Minggu',i:'🌧',mn:24,mx:29,w:80}
+    ]
+  }
+]
+
+function setCity(idx, el) {
+  const c = CITIES[idx]
+  document.querySelectorAll('.city-tab').forEach(t => t.classList.remove('active'))
+  el.classList.add('active')
+
+  document.getElementById('mainCard').style.background = c.gradient
+  document.getElementById('cityName').textContent = c.name
+  document.getElementById('mainTemp').innerHTML = c.temp + '<sup>°</sup>'
+  document.getElementById('mainDesc').textContent = c.desc
+  document.getElementById('mainIcon').textContent = c.icon
+  document.getElementById('feelsLike').textContent = c.feels + '°'
+  document.getElementById('humidity').textContent = c.humidity + '%'
+  document.getElementById('humidDetail').textContent = c.humidity + '%'
+  document.getElementById('wind').textContent = c.wind
+  document.getElementById('uv').textContent = c.uv
+
+  // Hourly
+  document.getElementById('hourlyList').innerHTML = c.hourly.map(h => `
+    <div class="hour-item ${h.active ? 'active' : ''}">
+      <span>${h.t}</span>
+      <span class="hour-icon">${h.i}</span>
+      <span class="hour-temp">${h.c}°</span>
+    </div>
+  `).join('')
+
+  // Daily
+  const minAll = Math.min(...c.daily.map(d => d.mn))
+  const maxAll = Math.max(...c.daily.map(d => d.mx))
+  document.getElementById('dailyList').innerHTML = c.daily.map(d => {
+    const left = ((d.mn - minAll) / (maxAll - minAll)) * 100
+    const width = ((d.mx - d.mn) / (maxAll - minAll)) * 100
+    return `
+      <div class="day-item">
+        <span class="day-name">${d.d}</span>
+        <span class="day-icon">${d.i}</span>
+        <div class="day-bar-wrap">
+          <span class="day-min">${d.mn}°</span>
+          <div class="day-bar-bg">
+            <div class="day-bar-fill" style="margin-left:${left}%;width:${Math.max(width,15)}%"></div>
+          </div>
+          <span class="day-max">${d.mx}°</span>
+        </div>
+      </div>
+    `
+  }).join('')
+}
+
+// Init
+setCity(0, document.querySelector('.city-tab.active'))
+</script>
+</body>
+</html>
