@@ -1,383 +1,849 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aulia Bilqisty — UI/UX Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --cream:#FAF8F4;
-    --ink:#1C2624;
-    --ink-soft:#5B655F;
-    --sage:#3F6F5E;
-    --sage-light:#E4EEE8;
-    --clay:#C97152;
-    --line:#DEDAD1;
-    --white:#FFFFFF;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--cream);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    line-height:1.6;
-  }
-  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aulia Bilqisty — UI/UX Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <div class="atmo" aria-hidden="true">
+      <div class="atmo-blob a"></div>
+      <div class="atmo-blob b"></div>
+      <div class="atmo-blob c"></div>
+    </div>
 
-  /* HEADER */
-  header{
-    padding:28px 0;
-    border-bottom:1px solid var(--line);
-    position:sticky;top:0;background:var(--cream);z-index:50;
-  }
-  .header-row{display:flex;justify-content:space-between;align-items:center;}
-  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-0.01em;}
-  nav{display:flex;gap:20px;}
-  nav a{color:var(--ink-soft);text-decoration:none;font-size:13.5px;font-weight:500;transition:color .2s;}
-  nav a:hover{color:var(--sage);}
+    <!-- ── NAVBAR ─────────────────────────────────────── -->
+    <nav class="navbar" aria-label="Navigasi utama">
+      <div class="navbar-inner">
+        <a href="#" class="nav-brand">Aulia Bilqisty</a>
 
-  /* HERO */
-  .hero{padding:96px 0 80px;}
-  .eyebrow{
-    font-size:13px;font-weight:600;color:var(--sage);
-    text-transform:uppercase;letter-spacing:0.08em;margin-bottom:20px;
-    display:flex;align-items:center;gap:10px;
-  }
-  .eyebrow::before{content:'';width:28px;height:1.5px;background:var(--sage);}
-  h1{
-    font-family:'Fraunces',serif;font-weight:500;
-    font-size:clamp(40px,6vw,64px);
-    line-height:1.08;letter-spacing:-0.01em;
-    max-width:780px;margin-bottom:28px;
-  }
-  h1 em{font-style:italic;color:var(--sage);font-weight:400;}
-  .hero-desc{font-size:17px;color:var(--ink-soft);max-width:560px;margin-bottom:36px;}
-  .hero-meta{display:flex;gap:40px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--line);}
-  .meta-item{}
-  .meta-label{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
-  .meta-value{font-size:15px;font-weight:500;}
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#tentang">Tentang</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#karya">Proyek</a></li>
+          <li><a href="#kontak">Kontak</a></li>
+        </ul>
 
-  /* SECTION HEADERS */
-  .section{padding:64px 0;}
-  .section-top{padding-top:0;}
-  .section-head{margin-bottom:48px;}
-  .section-number{
-    font-family:'Fraunces',serif;font-size:13px;color:var(--clay);
-    font-weight:600;margin-bottom:10px;letter-spacing:0.04em;
-  }
-  .section-title{font-family:'Fraunces',serif;font-size:32px;font-weight:500;margin-bottom:12px;letter-spacing:-0.01em;}
-  .section-sub{font-size:15px;color:var(--ink-soft);max-width:600px;}
+        <div class="nav-divider" aria-hidden="true"></div>
 
-  /* PROJECT CARD */
-  .project{
-    background:var(--white);
-    border:1px solid var(--line);
-    border-radius:18px;
-    overflow:hidden;
-    margin-bottom:32px;
-  }
-  .project-header{padding:32px 36px 24px;border-bottom:1px solid var(--line);}
-  .project-tag{
-    display:inline-block;font-size:11.5px;font-weight:600;
-    padding:5px 12px;border-radius:20px;margin-bottom:16px;
-    letter-spacing:0.02em;
-  }
-  .tag-redesign{background:var(--sage-light);color:var(--sage);}
-  .tag-original{background:#FBE9E1;color:var(--clay);}
-  .project-title{font-family:'Fraunces',serif;font-size:26px;font-weight:500;margin-bottom:10px;}
-  .project-desc{font-size:14.5px;color:var(--ink-soft);max-width:640px;margin-bottom:20px;}
-  .project-facts{display:flex;gap:32px;flex-wrap:wrap;}
-  .fact-label{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;}
-  .fact-value{font-size:13.5px;font-weight:500;}
-  .project-body{padding:32px 36px 36px;}
-  .flow-image{width:100%;border-radius:12px;border:1px solid var(--line);display:block;margin-bottom:24px;}
-  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-  .insight-box{background:var(--cream);border-radius:12px;padding:18px 20px;}
-  .insight-title{font-size:12.5px;font-weight:600;color:var(--sage);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.03em;}
-  .insight-text{font-size:13.5px;color:var(--ink);line-height:1.55;}
-
-  /* LIVE DEMO IFRAME */
-  .demo-frame-wrap{
-    border-radius:14px;border:1px solid var(--line);overflow:hidden;
-    margin-bottom:24px;position:relative;background:#0F1729;
-  }
-  .demo-frame-wrap.light-bg{background:#F0F4FF;}
-  .demo-frame-wrap iframe{width:100%;height:780px;border:none;display:block;}
-  .demo-badge{
-    position:absolute;top:14px;right:14px;z-index:5;
-    background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:600;
-    padding:5px 11px;border-radius:20px;display:flex;align-items:center;gap:6px;
-    backdrop-filter:blur(4px);
-  }
-  .demo-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;}
-  .demo-hint{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-bottom:24px;font-style:italic;}
-
-  /* FOOTER */
-  footer{padding:56px 0 60px;border-top:1px solid var(--line);}
-  .footer-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
-  .footer-note{font-size:13.5px;color:var(--ink-soft);max-width:480px;line-height:1.6;}
-  .footer-contact{font-size:14px;font-weight:500;}
-  .footer-contact a{color:var(--sage);text-decoration:none;}
-
-  @media (max-width:720px){
-    nav{display:none;}
-    .insight-grid{grid-template-columns:1fr;}
-    .project-header,.project-body{padding:24px 20px;}
-    .hero{padding:56px 0 48px;}
-    .hero-meta{gap:24px;}
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="wrap header-row">
-    <div class="brand">Aulia Bilqisty</div>
-    <nav>
-      <a href="#warasin">Warasin</a>
-      <a href="#cuanku">Cuanku</a>
-      <a href="#skylens">Skylens</a>
-      <a href="#taskly">Taskly</a>
-      <a href="#tentang">Tentang</a>
+        <div class="nav-right">
+          <div class="nav-status">
+            <span class="nav-status-dot"></span>
+            Open to work
+          </div>
+          <a href="assets/resume.pdf" class="nav-resume" target="_blank">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"
+              />
+            </svg>
+            Resume
+          </a>
+        </div>
+      </div>
     </nav>
-  </div>
-</header>
 
-<section class="hero">
-  <div class="wrap">
-    <div class="eyebrow">UI/UX Design Portfolio</div>
-    <h1>Belajar merancang antarmuka yang <em>masuk akal</em> untuk dipakai, bukan cuma indah dilihat.</h1>
-    <p class="hero-desc">Empat studi desain yang saya kerjakan secara mandiri — dua studi kasus redesign dan rancangan baru, serta dua aplikasi interaktif yang bisa langsung dicoba di halaman ini.</p>
-    <div class="hero-meta">
-      <div class="meta-item">
-        <div class="meta-label">Latar belakang</div>
-        <div class="meta-value">Mahasiswa Sistem Informasi Bisnis</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Pengalaman terkait</div>
-        <div class="meta-value">Bootcamp Data Scientist, 6 bulan</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Tools</div>
-        <div class="meta-value">Canva, Figma (belajar)</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-top" id="warasin">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-number">Studi 01</div>
-      <div class="section-title">Memperbaiki apa yang sudah ada</div>
-      <div class="section-sub">Saat sebuah produk sudah jalan, tugas desainer adalah menemukan celah kecil yang membuat pengalaman terasa lebih baik — bukan membongkar semuanya.</div>
-    </div>
-
-    <div class="project">
-      <div class="project-header">
-        <span class="project-tag tag-redesign">Redesign independen</span>
-        <div class="project-title">Warasin — Flow deteksi stres</div>
-        <p class="project-desc">Warasin adalah platform deteksi stres berbasis chatbot dan analisis wajah, dikembangkan tim capstone bootcamp saya. Saya berperan sebagai Data Scientist di tim ini — desain berikut adalah eksplorasi UI/UX independen yang saya kerjakan di luar peran utama saya, berdasarkan kelemahan yang kami catat sendiri saat evaluasi.</p>
-        <div class="project-facts">
-          <div>
-            <div class="fact-label">Peran saya di tim asli</div>
-            <div class="fact-value">Data Scientist</div>
+    <!-- ── HERO ──────────────────────────────────────── -->
+    <section style="position: relative; z-index: 2">
+      <div class="wrap">
+        <div class="hero-wrap">
+          <!-- Kiri -->
+          <div class="reveal">
+            <div class="hero-eyebrow">
+              <span class="hero-pulse"></span>
+              UI/UX Design Portfolio
+            </div>
+            <h1 class="hero-title">
+              Desain yang<br /><em>masuk akal</em><br />untuk dipakai.
+            </h1>
+            <p class="hero-sub">
+              Mahasiswa Sistem Informasi Bisnis yang mendalami UI/UX — enam
+              studi kasus dari redesign nyata hingga prototipe interaktif.
+            </p>
+            <div class="hero-actions">
+              <a href="#karya" class="btn-primary">
+                <span>Lihat proyek</span>
+              </a>
+              <a href="#kontak" class="btn-ghost">Hubungi saya</a>
+            </div>
           </div>
-          <div>
-            <div class="fact-label">Fokus redesign</div>
-            <div class="fact-value">Capture foto &amp; status proses</div>
-          </div>
-          <div>
-            <div class="fact-label">Jumlah layar</div>
-            <div class="fact-value">5 layar</div>
+
+          <!-- Kanan: foto -->
+          <div class="profile-col reveal">
+            <div class="profile-ring-outer">
+              <div class="profile-glow"></div>
+              <div class="profile-frame">
+                <img
+                  src="assets/foto.jpg"
+                  alt="Foto profil Aulia Bilqisty"
+                  class="profile-img"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div class="profile-placeholder" style="display: none">
+                  <div class="profile-initials">AB</div>
+                  <div class="profile-initials-sub">Aulia Bilqisty</div>
+                </div>
+              </div>
+              <div class="profile-badge">
+                <span class="profile-badge-dot"></span>
+                Available for internship
+              </div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-item">
+                <div class="stat-label">Background</div>
+                <div class="stat-val">Sistem Informasi Bisnis</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Tools</div>
+                <div class="stat-val">Figma · Canva</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="project-body">
-        <img src="assets/warasin.png" alt="Flow redesign Warasin dari pilih metode hingga riwayat" class="flow-image">
-        <div class="insight-grid">
-          <div class="insight-box">
-            <div class="insight-title">Masalah yang ditemukan</div>
-            <div class="insight-text">Versi asli hanya mendukung unggah file foto — tidak ada opsi kamera langsung, sehingga kurang praktis dipakai spontan di HP. Tidak ada juga status loading yang jelas saat sistem memproses.</div>
+    </section>
+
+    <!-- ── TENTANG ────────────────────────────────────── -->
+    <section id="tentang" class="about-section">
+      <div class="wrap">
+        <div class="sec-divider reveal" style="margin-bottom: 48px">
+          <div>
+            <div class="sec-label">Tentang Saya</div>
+            <div class="sec-title">Siapa saya</div>
           </div>
-          <div class="insight-box">
-            <div class="insight-title">Perubahan yang saya buat</div>
-            <div class="insight-text">Menjadikan kamera sebagai opsi utama, menambah layar status proses yang sebelumnya tidak ada, dan membuat rekomendasi hasil lebih actionable dengan tombol aksi langsung.</div>
+        </div>
+
+        <div class="about-grid reveal">
+          <!-- Bio -->
+          <div>
+            <p class="about-quote">
+              "Data dan desain punya <em>tujuan yang sama</em> — membuat sesuatu
+              lebih mudah dipahami."
+            </p>
+            <p class="about-text">
+              Saya mahasiswa Sistem Informasi Bisnis yang mendalami UI/UX
+              setelah mengikuti bootcamp Data Science. Dari sana saya sadar:
+              visualisasi data dan desain antarmuka punya prinsip yang sama —
+              kejelasan, hierarki, dan empati terhadap pengguna.
+            </p>
+            <div class="chip-row">
+              <span class="chip">SIB</span>
+              <span class="chip">Data Science</span>
+              <span class="chip">Figma</span>
+              <span class="chip">HTML/CSS</span>
+              <span class="chip">User Research</span>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-left">
+                  <div class="tl-dot"></div>
+                  <div class="tl-line"></div>
+                </div>
+                <div>
+                  <div class="tl-year">2025</div>
+                  <div class="tl-title">Kuliah Sistem Informasi Bisnis</div>
+                  <div class="tl-desc">
+                    Mengenal sistem informasi, analisis bisnis, dan peran
+                    teknologi dalam pemecahan masalah nyata.
+                  </div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left">
+                  <div
+                    class="tl-dot"
+                    style="
+                      background: var(--amber);
+                      box-shadow: 0 0 8px var(--amber);
+                    "
+                  ></div>
+                  <div class="tl-line"></div>
+                </div>
+                <div>
+                  <div class="tl-year">2026</div>
+                  <div class="tl-title">Bootcamp Data Science</div>
+                  <div class="tl-desc">
+                    Belajar analisis data & visualisasi — menyadari koneksinya
+                    dengan desain UI yang baik.
+                  </div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left">
+                  <div
+                    class="tl-dot"
+                    style="
+                      background: var(--violet);
+                      box-shadow: 0 0 8px var(--violet);
+                    "
+                  ></div>
+                  <div class="tl-line"></div>
+                </div>
+                <div>
+                  <div class="tl-year">2026</div>
+                  <div class="tl-title">Mulai UI/UX Design</div>
+                  <div class="tl-desc">
+                    Eksplorasi mandiri menghasilkan enam studi kasus yang ada di
+                    portfolio ini.
+                  </div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left">
+                  <div
+                    class="tl-dot"
+                    style="
+                      background: transparent;
+                      box-shadow: none;
+                      border: 1px dashed var(--border);
+                    "
+                  ></div>
+                  <div class="tl-line"></div>
+                </div>
+                <div>
+                  <div class="tl-year">Selanjutnya</div>
+                  <div class="tl-title">Memperdalam product thinking</div>
+                  <div class="tl-desc">
+                    Fokus pada Figma lanjutan, prototyping, dan user research
+                    berbasis data.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="section" id="cuanku">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-number">Studi 02</div>
-      <div class="section-title">Merancang dari masalah sendiri</div>
-      <div class="section-sub">Sebagai mahasiswa, saya sering kehilangan jejak uang bulanan di tengah jalan. Studi ini lahir dari pertanyaan sederhana: aplikasi seperti apa yang sebenarnya saya butuhkan?</div>
-    </div>
+    <!-- ── SKILLS ─────────────────────────────────────── -->
+    <section
+      id="skills"
+      style="position: relative; z-index: 2; padding: 80px 0"
+    >
+      <div class="wrap">
+        <div class="sec-divider reveal">
+          <div class="sec-label">Kemampuan</div>
+          <div class="sec-title">Skills & <span>tools.</span></div>
+        </div>
 
-    <div class="project">
-      <div class="project-header">
-        <span class="project-tag tag-original">Rancangan orisinal</span>
-        <div class="project-title">Cuanku — Pencatat keuangan mahasiswa</div>
-        <p class="project-desc">Cuanku dirancang untuk membantu mahasiswa memantau uang saku bulanan tanpa proses yang rumit — cukup catat transaksi singkat, lihat ringkasan per kategori, dan pantau target tabungan kecil seperti dana liburan atau laptop baru.</p>
-        <div class="project-facts">
-          <div>
-            <div class="fact-label">Target pengguna</div>
-            <div class="fact-value">Mahasiswa dengan uang bulanan tetap</div>
+        <div class="skills-grid">
+          <div class="skills-group reveal">
+            <div class="skills-group-label">Design</div>
+            <div class="skills-list">
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(94, 234, 212, 0.08);
+                    border-color: rgba(94, 234, 212, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #5eead4"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="3" />
+                    <path d="M3 9h18M9 21V9" />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Figma</div>
+                  <div class="skill-desc">UI design & prototyping</div>
+                </div>
+                <div class="skill-badge">Utama</div>
+              </div>
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(251, 146, 60, 0.08);
+                    border-color: rgba(251, 146, 60, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #fb923c"
+                  >
+                    <path
+                      d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                    />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Canva</div>
+                  <div class="skill-desc">Visual & layout design</div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(167, 139, 250, 0.08);
+                    border-color: rgba(167, 139, 250, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #a78bfa"
+                  >
+                    <path d="M4 5h16M4 12h10M4 19h13" />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Tipografi</div>
+                  <div class="skill-desc">Type pairing & hierarchy</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <div class="fact-label">Fitur inti</div>
-            <div class="fact-value">Catat transaksi &amp; target tabungan</div>
+
+          <div class="skills-group reveal">
+            <div class="skills-group-label">Code</div>
+            <div class="skills-list">
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(96, 165, 250, 0.08);
+                    border-color: rgba(96, 165, 250, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #60a5fa"
+                  >
+                    <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">HTML · CSS · JS</div>
+                  <div class="skill-desc">Frontend & interaksi web</div>
+                </div>
+                <div class="skill-badge">Utama</div>
+              </div>
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(250, 204, 21, 0.08);
+                    border-color: rgba(250, 204, 21, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #facc15"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                    />
+                    <path d="M8 12h8M12 8v8" />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Python</div>
+                  <div class="skill-desc">Data & analisis</div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(244, 114, 182, 0.08);
+                    border-color: rgba(244, 114, 182, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #f472b6"
+                  >
+                    <path d="M4 4h16v16H4zM4 9h16M9 9v11" />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Java · PHP</div>
+                  <div class="skill-desc">Backend & logika aplikasi</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <div class="fact-label">Jumlah layar</div>
-            <div class="fact-value">5 layar</div>
+
+          <div class="skills-group reveal">
+            <div class="skills-group-label">Visual</div>
+            <div class="skills-list">
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(94, 234, 212, 0.08);
+                    border-color: rgba(94, 234, 212, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #5eead4"
+                  >
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                      d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                    />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Fotografi</div>
+                  <div class="skill-desc">Komposisi & pencahayaan</div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(251, 146, 60, 0.08);
+                    border-color: rgba(251, 146, 60, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #fb923c"
+                  >
+                    <rect x="2" y="6" width="20" height="12" rx="2" />
+                    <path d="M16 10l4-2v8l-4-2" />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Videografi</div>
+                  <div class="skill-desc">Shooting & storytelling</div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div
+                  class="skill-icon"
+                  style="
+                    background: rgba(167, 139, 250, 0.08);
+                    border-color: rgba(167, 139, 250, 0.18);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    style="color: #a78bfa"
+                  >
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    />
+                  </svg>
+                </div>
+                <div class="skill-info">
+                  <div class="skill-name">Foto & Video Editing</div>
+                  <div class="skill-desc">Post-production & color</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="project-body">
-        <img src="assets/cuanku.png" alt="Flow Cuanku dari dashboard hingga riwayat transaksi" class="flow-image">
-        <div class="insight-grid">
-          <div class="insight-box">
-            <div class="insight-title">Kenapa topik ini</div>
-            <div class="insight-text">Saya sendiri sering tidak sadar kemana uang bulanan habis sampai sisa di akhir bulan menipis. Aplikasi pencatat keuangan yang ada biasanya terasa rumit untuk kebutuhan sesederhana mahasiswa.</div>
+    </section>
+
+    <!-- ── PROYEK ─────────────────────────────────────── -->
+    <section
+      id="karya"
+      style="position: relative; z-index: 2; padding-bottom: 80px"
+    >
+      <div class="wrap">
+        <div class="sec-divider reveal">
+          <div class="sec-label">Studi Kasus</div>
+          <div class="sec-title">Semua <span>proyek.</span></div>
+        </div>
+
+        <div class="project-grid">
+          <a href="pages/warasin.html" class="proj-card reveal">
+            <div class="proj-thumb">
+              <div
+                class="proj-thumb-bg"
+                style="background: linear-gradient(135deg, #1e1b4b, #312e81)"
+              >
+                <span class="proj-thumb-emoji">🧠</span>
+              </div>
+              <div class="proj-thumb-overlay"></div>
+              <div class="proj-num">01</div>
+            </div>
+            <div class="proj-body">
+              <span class="proj-tag redesign"
+                ><span class="proj-tag-dot"></span>Redesign</span
+              >
+              <div class="proj-name">Warasin</div>
+              <div class="proj-sub">
+                Redesign flow deteksi stres — kamera langsung & status lebih
+                jelas.
+              </div>
+              <div class="proj-footer">
+                <div class="proj-cta">
+                  Lihat studi
+                  <div class="proj-cta-icon">→</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="pages/cuanku.html" class="proj-card reveal">
+            <div class="proj-thumb">
+              <div
+                class="proj-thumb-bg"
+                style="background: linear-gradient(135deg, #064e3b, #065f46)"
+              >
+                <span class="proj-thumb-emoji">💰</span>
+              </div>
+              <div class="proj-thumb-overlay"></div>
+              <div class="proj-num">02</div>
+            </div>
+            <div class="proj-body">
+              <span class="proj-tag original"
+                ><span class="proj-tag-dot"></span>Orisinal</span
+              >
+              <div class="proj-name">Cuanku</div>
+              <div class="proj-sub">
+                Pencatat keuangan mahasiswa — transaksi & target tabungan.
+              </div>
+              <div class="proj-footer">
+                <div class="proj-cta">
+                  Lihat studi
+                  <div class="proj-cta-icon">→</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="pages/skylens.html" class="proj-card reveal">
+            <div class="proj-thumb">
+              <div
+                class="proj-thumb-bg"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    #0c1445,
+                    #1a3a6b,
+                    #0e4d6e
+                  );
+                "
+              >
+                <span class="proj-thumb-emoji">🌤</span>
+              </div>
+              <div class="proj-thumb-overlay"></div>
+              <div class="proj-num">03</div>
+            </div>
+            <div class="proj-body">
+              <span class="proj-tag live"
+                ><span class="proj-tag-dot"></span>Interaktif</span
+              >
+              <div class="proj-name">Skylens</div>
+              <div class="proj-sub">
+                Dashboard cuaca — prakiraan per jam, 7 hari & kualitas udara.
+              </div>
+              <div class="proj-footer">
+                <div class="proj-cta">
+                  Lihat studi
+                  <div class="proj-cta-icon">→</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="pages/taskly.html" class="proj-card reveal">
+            <div class="proj-thumb">
+              <div
+                class="proj-thumb-bg"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    #1a0533,
+                    #3b0764,
+                    #4c0891
+                  );
+                "
+              >
+                <span class="proj-thumb-emoji">✅</span>
+              </div>
+              <div class="proj-thumb-overlay"></div>
+              <div class="proj-num">04</div>
+            </div>
+            <div class="proj-body">
+              <span class="proj-tag live"
+                ><span class="proj-tag-dot"></span>Interaktif</span
+              >
+              <div class="proj-name">Taskly</div>
+              <div class="proj-sub">
+                To-do list harian — kategori, prioritas warna & progress bar.
+              </div>
+              <div class="proj-footer">
+                <div class="proj-cta">
+                  Lihat studi
+                  <div class="proj-cta-icon">→</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="pages/kasir.html" class="proj-card reveal">
+            <div class="proj-thumb">
+              <div
+                class="proj-thumb-bg"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    #052e16,
+                    #14532d,
+                    #166534
+                  );
+                "
+              >
+                <span class="proj-thumb-emoji">🧾</span>
+              </div>
+              <div class="proj-thumb-overlay"></div>
+              <div class="proj-num">05</div>
+            </div>
+            <div class="proj-body">
+              <span class="proj-tag live"
+                ><span class="proj-tag-dot"></span>Interaktif</span
+              >
+              <div class="proj-name">Kasir</div>
+              <div class="proj-sub">
+                Finance tracker — catat pemasukan, pengeluaran & saldo seketika.
+              </div>
+              <div class="proj-footer">
+                <div class="proj-cta">
+                  Lihat studi
+                  <div class="proj-cta-icon">→</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="pages/habitly.html" class="proj-card reveal">
+            <div class="proj-thumb">
+              <div
+                class="proj-thumb-bg"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    #2e1065,
+                    #4c1d95,
+                    #5b21b6
+                  );
+                "
+              >
+                <span class="proj-thumb-emoji">🔥</span>
+              </div>
+              <div class="proj-thumb-overlay"></div>
+              <div class="proj-num">06</div>
+            </div>
+            <div class="proj-body">
+              <span class="proj-tag live"
+                ><span class="proj-tag-dot"></span>Interaktif</span
+              >
+              <div class="proj-name">Habitly</div>
+              <div class="proj-sub">
+                Habit tracker — streak harian & heatmap aktivitas mingguan.
+              </div>
+              <div class="proj-footer">
+                <div class="proj-cta">
+                  Lihat studi
+                  <div class="proj-cta-icon">→</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── KONTAK ─────────────────────────────────────── -->
+    <footer id="kontak" class="contact-section">
+      <div class="wrap">
+        <div class="contact-grid-outer">
+          <!-- Kiri -->
+          <div>
+            <h2 class="contact-heading">Mari <em>berkolaborasi</em>.</h2>
+            <p class="contact-sub">
+              Terbuka untuk magang, proyek, dan diskusi desain. Jangan ragu
+              untuk menghubungi.
+            </p>
           </div>
-          <div class="insight-box">
-            <div class="insight-title">Keputusan desain utama</div>
-            <div class="insight-text">Input transaksi dibuat secepat mungkin dengan kategori bergambar, dan target tabungan ditampilkan sebagai progress visual supaya terasa memotivasi, bukan sekadar angka.</div>
+
+          <!-- Kanan -->
+          <div>
+            <div class="contact-label">Hubungi saya</div>
+            <div class="contact-links">
+              <!-- Email — full width -->
+              <a href="mailto:aulia@email.com" class="c-link span2">
+                <div class="c-icon email">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                    />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </div>
+                <div class="c-info">
+                  <div class="c-platform">Email</div>
+                  <div class="c-handle">aulia@email.com</div>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+
+              <!-- WhatsApp -->
+              <a
+                href="https://wa.me/62xxxxxxxxxx"
+                class="c-link"
+                target="_blank"
+              >
+                <div class="c-icon wa">
+                  <svg fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                    />
+                  </svg>
+                </div>
+                <div class="c-info">
+                  <div class="c-platform">WhatsApp</div>
+                  <div class="c-handle">+62 xxx-xxxx-xxxx</div>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+
+              <!-- LinkedIn -->
+              <a
+                href="https://linkedin.com/in/auliabilqisty"
+                class="c-link"
+                target="_blank"
+              >
+                <div class="c-icon linkedin">
+                  <svg fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
+                  </svg>
+                </div>
+                <div class="c-info">
+                  <div class="c-platform">LinkedIn</div>
+                  <div class="c-handle">auliabilqisty</div>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+
+              <!-- Instagram -->
+              <a
+                href="https://instagram.com/auliabilqisty"
+                class="c-link span2"
+                target="_blank"
+              >
+                <div class="c-icon ig">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </div>
+                <div class="c-info">
+                  <div class="c-platform">Instagram</div>
+                  <div class="c-handle">@auliabilqisty</div>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+
+              <!-- GitHub — full width -->
+              <a
+                href="https://github.com/auliabilqisty"
+                class="c-link span2"
+                target="_blank"
+              >
+                <div class="c-icon github">
+                  <svg fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                    />
+                  </svg>
+                </div>
+                <div class="c-info">
+                  <div class="c-platform">GitHub</div>
+                  <div class="c-handle">github.com/auliabilqisty</div>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer bar -->
+        <div class="footer-bar">
+          <span class="footer-copy"
+            >© 2025 Aulia Bilqisty. All rights reserved.</span
+          >
+          <div class="footer-sig">
+            <span class="footer-sig-name">Aulia Bilqisty</span>
+            <span class="footer-sig-role">UI/UX Designer · Indonesia</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </footer>
 
-<section class="section" id="skylens">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-number">Studi 03</div>
-      <div class="section-title">Mendesain untuk dicoba, bukan hanya dilihat</div>
-      <div class="section-sub">Dua studi berikut saya bangun langsung sebagai halaman interaktif, supaya bisa dicoba sungguhan — bukan sekadar mockup gambar.</div>
-    </div>
-
-    <div class="project">
-      <div class="project-header">
-        <span class="project-tag tag-original">Rancangan orisinal &middot; Interaktif</span>
-        <div class="project-title">Skylens — Dashboard cuaca</div>
-        <p class="project-desc">Skylens dirancang sebagai dashboard cuaca yang menampilkan informasi penting sekilas pandang — suhu, prakiraan per jam, 7 hari ke depan, kualitas udara, hingga waktu matahari terbit/terbenam — tanpa harus berpindah halaman.</p>
-        <div class="project-facts">
-          <div>
-            <div class="fact-label">Target pengguna</div>
-            <div class="fact-value">Pengguna umum yang cek cuaca harian</div>
-          </div>
-          <div>
-            <div class="fact-label">Fitur inti</div>
-            <div class="fact-value">Switch kota, prakiraan per jam &amp; 7 hari</div>
-          </div>
-          <div>
-            <div class="fact-label">Status</div>
-            <div class="fact-value">Bisa dicoba langsung di bawah</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-body">
-        <p class="demo-hint">Coba klik tab kota di pojok kanan atas demo (Malang / Surabaya / Jakarta) — semua data ikut berubah secara langsung.</p>
-        <div class="demo-frame-wrap">
-          <span class="demo-badge">Live demo</span>
-          <iframe src="assets/skylens.html" loading="lazy" title="Demo interaktif Skylens"></iframe>
-        </div>
-        <div class="insight-grid">
-          <div class="insight-box">
-            <div class="insight-title">Kenapa topik ini</div>
-            <div class="insight-text">Dashboard cuaca menuntut banyak data ditampilkan sekaligus tanpa terasa penuh sesak — latihan yang baik untuk belajar hierarki visual dan pengelompokan informasi.</div>
-          </div>
-          <div class="insight-box">
-            <div class="insight-title">Keputusan desain utama</div>
-            <div class="insight-text">Kartu utama memakai gradasi warna yang berubah sesuai cuaca (cerah, mendung, hujan) sebagai penanda kondisi tanpa perlu membaca teks dulu.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="taskly">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-number">Studi 04</div>
-      <div class="section-title">Menyederhanakan rutinitas harian</div>
-      <div class="section-sub">Aplikasi pencatat tugas yang saya rancang agar terasa ringan dipakai setiap hari, dengan progress yang terlihat jelas sebagai bentuk motivasi kecil.</div>
-    </div>
-
-    <div class="project">
-      <div class="project-header">
-        <span class="project-tag tag-original">Rancangan orisinal &middot; Interaktif</span>
-        <div class="project-title">Taskly — To-do list harian</div>
-        <p class="project-desc">Taskly membantu mengelola tugas harian dengan kategori dan prioritas yang jelas, dilengkapi progress bar yang memberi rasa pencapaian setiap tugas diselesaikan.</p>
-        <div class="project-facts">
-          <div>
-            <div class="fact-label">Target pengguna</div>
-            <div class="fact-value">Mahasiswa/pekerja dengan tugas harian</div>
-          </div>
-          <div>
-            <div class="fact-label">Fitur inti</div>
-            <div class="fact-value">Tambah, filter, dan progress tugas</div>
-          </div>
-          <div>
-            <div class="fact-label">Status</div>
-            <div class="fact-value">Bisa dicoba langsung di bawah</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-body">
-        <p class="demo-hint">Coba tambahkan tugas baru atau centang salah satu tugas pada demo di bawah — progress bar ikut menyesuaikan secara langsung.</p>
-        <div class="demo-frame-wrap light-bg">
-          <span class="demo-badge">Live demo</span>
-          <iframe src="assets/taskly.html" loading="lazy" title="Demo interaktif Taskly"></iframe>
-        </div>
-        <div class="insight-grid">
-          <div class="insight-box">
-            <div class="insight-title">Kenapa topik ini</div>
-            <div class="insight-text">To-do list adalah jenis aplikasi yang gampang dipakai siapa saja, sehingga jadi tempat yang tepat untuk latihan micro-interaction seperti animasi saat tugas ditambah atau dicentang.</div>
-          </div>
-          <div class="insight-box">
-            <div class="insight-title">Keputusan desain utama</div>
-            <div class="insight-text">Prioritas tugas ditandai lewat titik warna kecil, bukan label teks, supaya daftar tetap ringkas dipandang meski berisi banyak tugas.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="tentang">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-number">Tentang saya</div>
-      <div class="section-title">Masih belajar, dan menikmatinya</div>
-    </div>
-    <div class="project">
-      <div class="project-body" style="padding-top:32px;">
-        <p class="project-desc" style="font-size:15px;max-width:680px;">
-          Saya mahasiswa semester 2 jurusan Sistem Informasi Bisnis dengan pengalaman 6 bulan mengikuti bootcamp Data Scientist. Ketertarikan saya pada UI/UX tumbuh dari pengalaman bekerja dalam tim capstone — saya menyadari bahwa data dan desain sebenarnya menjawab pertanyaan yang sama: bagaimana membuat sesuatu lebih mudah dipahami orang lain. Keempat studi di atas adalah langkah awal saya mendalami itu secara lebih serius, dan saya berencana melanjutkan dengan belajar Figma serta melakukan riset pengguna langsung pada studi berikutnya.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap footer-row">
-    <p class="footer-note">Portfolio ini dibuat untuk keperluan magang mandiri sebagai UI/UX Designer. Terbuka untuk masukan dan diskusi lebih lanjut.</p>
-    <div class="footer-contact">Aulia Bilqisty</div>
-  </div>
-</footer>
-
-</body>
+    <script src="js/main.js"></script>
+  </body>
 </html>

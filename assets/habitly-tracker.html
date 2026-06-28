@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habitly — Habit Tracker</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: #fafaf8;
+        min-height: 100vh;
+        padding: 2.5rem 1rem;
+        color: #1a1a1a;
+      }
+      .app {
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      .header {
+        margin-bottom: 2rem;
+      }
+      .logo {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        margin-bottom: 2px;
+      }
+      .logo span {
+        color: #7c3aed;
+      }
+      .sub {
+        font-size: 13px;
+        color: #9ca3af;
+      }
+
+      /* Week strip */
+      .week {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin-bottom: 1.75rem;
+      }
+      .day-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+      .day-label {
+        font-size: 10px;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .day-num {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 500;
+        background: #f3f4f6;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .day-num.today {
+        background: #7c3aed;
+        color: white;
+      }
+      .day-num.has-data {
+        position: relative;
+      }
+      .day-num.has-data::after {
+        content: "";
+        position: absolute;
+        bottom: 3px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #10b981;
+      }
+      .day-num.today::after {
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Stats row */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 1.75rem;
+      }
+      .stat {
+        background: white;
+        border: 1px solid #f0f0ee;
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .stat-top {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      .stat-icon {
+        font-size: 16px;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+      .stat-val {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+      .stat-sub {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 1px;
+      }
+
+      /* Add habit */
+      .add-wrap {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 1.5rem;
+      }
+      .add-wrap input {
+        flex: 1;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        outline: none;
+        background: white;
+        transition: border-color 0.15s;
+      }
+      .add-wrap input:focus {
+        border-color: #7c3aed;
+      }
+      .add-wrap input::placeholder {
+        color: #d1d5db;
+      }
+      .emoji-pick {
+        width: 44px;
+        height: 44px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .emoji-menu {
+        position: absolute;
+        top: 48px;
+        left: 0;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 8px;
+        display: none;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        z-index: 10;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+      .emoji-menu.open {
+        display: grid;
+      }
+      .emoji-opt {
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .emoji-opt:hover {
+        background: #f3f4f6;
+      }
+      .add-btn {
+        background: #7c3aed;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 0 18px;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition: background 0.15s;
+        white-space: nowrap;
+      }
+      .add-btn:hover {
+        background: #6d28d9;
+      }
+
+      /* Section label */
+      .section-label {
+        font-size: 11px;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.75rem;
+      }
+
+      /* Habit cards */
+      .habit-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .habit-card {
+        background: white;
+        border: 1px solid #f0f0ee;
+        border-radius: 16px;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: transform 0.15s;
+      }
+      .habit-card:hover {
+        transform: translateY(-1px);
+      }
+      .habit-emoji {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .habit-info {
+        flex: 1;
+      }
+      .habit-name {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 2px;
+      }
+      .habit-streak {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+      .habit-streak span {
+        color: #f59e0b;
+        font-weight: 500;
+      }
+      .habit-dots {
+        display: flex;
+        gap: 3px;
+      }
+      .habit-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        transition: background 0.2s;
+      }
+      .habit-dot.done {
+        background: #10b981;
+      }
+      .habit-dot.today-dot {
+        border: 2px solid #7c3aed;
+        background: transparent;
+        cursor: pointer;
+      }
+      .habit-dot.today-dot.done {
+        background: #7c3aed;
+        border-color: #7c3aed;
+      }
+      .habit-check {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid #e5e7eb;
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: transparent;
+        transition: all 0.15s;
+        flex-shrink: 0;
+      }
+      .habit-check.done {
+        background: #10b981;
+        border-color: #10b981;
+        color: white;
+      }
+      .del-btn {
+        background: none;
+        border: none;
+        color: #d1d5db;
+        font-size: 13px;
+        cursor: pointer;
+        padding: 2px;
+        transition: color 0.15s;
+        flex-shrink: 0;
+      }
+      .del-btn:hover {
+        color: #ef4444;
+      }
+
+      /* Heatmap */
+      .heatmap-wrap {
+        background: white;
+        border: 1px solid #f0f0ee;
+        border-radius: 16px;
+        padding: 16px;
+        margin-top: 1.5rem;
+      }
+      .heatmap-title {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 12px;
+      }
+      .heatmap-grid {
+        display: grid;
+        grid-template-columns: repeat(13, 1fr);
+        gap: 3px;
+      }
+      .hm-cell {
+        aspect-ratio: 1;
+        border-radius: 3px;
+        background: #f3f4f6;
+        transition: background 0.2s;
+      }
+      .hm-1 {
+        background: #ddd6fe;
+      }
+      .hm-2 {
+        background: #a78bfa;
+      }
+      .hm-3 {
+        background: #7c3aed;
+      }
+      .hm-months {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 6px;
+        font-size: 10px;
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="header">
+        <div class="logo">Habit<span>ly</span></div>
+        <div class="sub">Bangun kebiasaan baik, satu hari satu langkah</div>
+      </div>
+
+      <!-- Week -->
+      <div class="week" id="weekStrip"></div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-icon">🔥</span
+            ><span class="stat-label">Streak</span>
+          </div>
+          <div class="stat-val" id="statStreak">7</div>
+          <div class="stat-sub">hari berturut</div>
+        </div>
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-icon">✅</span
+            ><span class="stat-label">Hari Ini</span>
+          </div>
+          <div class="stat-val" id="statToday">0</div>
+          <div class="stat-sub">selesai</div>
+        </div>
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-icon">📈</span
+            ><span class="stat-label">Rate</span>
+          </div>
+          <div class="stat-val" id="statRate">0%</div>
+          <div class="stat-sub">minggu ini</div>
+        </div>
+      </div>
+
+      <!-- Add -->
+      <div class="add-wrap">
+        <div class="emoji-pick" id="emojiPick" onclick="toggleEmoji(event)">
+          <span id="selectedEmoji">💪</span>
+          <div class="emoji-menu" id="emojiMenu">
+            ${['💪','📚','🏃','💧','🧘','✍️','🎨','🎵','🍎','😴','🧹','💊','🌱','🎯','⚡'].map(e
+            => `
+            <div class="emoji-opt" onclick="pickEmoji('${e}', event)">${e}</div>
+            `).join('')}
+          </div>
+        </div>
+        <input
+          type="text"
+          id="habitInput"
+          placeholder="Nama kebiasaan baru..."
+          maxlength="40"
+        />
+        <button class="add-btn" onclick="addHabit()">+ Tambah</button>
+      </div>
+
+      <div class="section-label">Kebiasaanku</div>
+      <div class="habit-list" id="habitList"></div>
+
+      <!-- Heatmap -->
+      <div class="heatmap-wrap">
+        <div class="heatmap-title">Aktivitas 3 Bulan Terakhir</div>
+        <div class="heatmap-grid" id="heatmap"></div>
+        <div class="hm-months">
+          <span>Apr</span><span>Mei</span><span>Jun</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const COLORS = ["#EDE9FE", "#DDD6FE", "#C4B5FD", "#A78BFA", "#8B5CF6"];
+      const DAYS = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+
+      let selectedEmoji = "💪";
+      let habits = [
+        {
+          id: 1,
+          emoji: "💪",
+          name: "Olahraga 30 menit",
+          streak: 7,
+          hist: [1, 1, 1, 1, 1, 1, 0],
+          done: false,
+        },
+        {
+          id: 2,
+          emoji: "📚",
+          name: "Baca buku",
+          streak: 4,
+          hist: [0, 1, 1, 1, 1, 0, 0],
+          done: false,
+        },
+        {
+          id: 3,
+          emoji: "💧",
+          name: "Minum 8 gelas air",
+          streak: 12,
+          hist: [1, 1, 1, 1, 1, 1, 1],
+          done: true,
+        },
+        {
+          id: 4,
+          emoji: "🧘",
+          name: "Meditasi pagi",
+          streak: 3,
+          hist: [0, 0, 0, 0, 1, 1, 1],
+          done: false,
+        },
+        {
+          id: 5,
+          emoji: "✍️",
+          name: "Journaling",
+          streak: 2,
+          hist: [0, 1, 0, 0, 0, 1, 1],
+          done: true,
+        },
+      ];
+      let nextId = 6;
+
+      // Week strip
+      function renderWeek() {
+        const strip = document.getElementById("weekStrip");
+        const now = new Date();
+        const today = now.getDay();
+        const days = [];
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(now);
+          d.setDate(now.getDate() - i);
+          days.push(d);
+        }
+        strip.innerHTML = days
+          .map((d, i) => {
+            const isToday = i === 6;
+            const hasData = Math.random() > 0.3;
+            return `<div class="day-col">
+      <div class="day-label">${DAYS[d.getDay()]}</div>
+      <div class="day-num ${isToday ? "today" : ""} ${hasData && !isToday ? "has-data" : ""}">${d.getDate()}</div>
+    </div>`;
+          })
+          .join("");
+      }
+
+      // Heatmap
+      function renderHeatmap() {
+        const hm = document.getElementById("heatmap");
+        hm.innerHTML = Array.from({ length: 91 }, (_, i) => {
+          const r = Math.random();
+          const cls =
+            r < 0.35 ? "" : r < 0.6 ? "hm-1" : r < 0.8 ? "hm-2" : "hm-3";
+          return `<div class="hm-cell ${cls}"></div>`;
+        }).join("");
+      }
+
+      function toggleEmoji(e) {
+        e.stopPropagation();
+        document.getElementById("emojiMenu").classList.toggle("open");
+      }
+      function pickEmoji(em, e) {
+        e.stopPropagation();
+        selectedEmoji = em;
+        document.getElementById("selectedEmoji").textContent = em;
+        document.getElementById("emojiMenu").classList.remove("open");
+      }
+      document.addEventListener("click", () =>
+        document.getElementById("emojiMenu").classList.remove("open"),
+      );
+
+      function addHabit() {
+        const input = document.getElementById("habitInput");
+        const name = input.value.trim();
+        if (!name) return;
+        habits.unshift({
+          id: nextId++,
+          emoji: selectedEmoji,
+          name,
+          streak: 0,
+          hist: [0, 0, 0, 0, 0, 0, 0],
+          done: false,
+        });
+        input.value = "";
+        render();
+      }
+
+      function toggleDone(id) {
+        habits = habits.map((h) =>
+          h.id === id
+            ? {
+                ...h,
+                done: !h.done,
+                streak: !h.done ? h.streak + 1 : Math.max(0, h.streak - 1),
+              }
+            : h,
+        );
+        render();
+      }
+
+      function deleteHabit(id) {
+        habits = habits.filter((h) => h.id !== id);
+        render();
+      }
+
+      function getBg(emoji) {
+        const map = {
+          "💪": "#EDE9FE",
+          "📚": "#DBEAFE",
+          "💧": "#CFFAFE",
+          "🧘": "#D1FAE5",
+          "✍️": "#FEF3C7",
+          "🎨": "#FCE7F3",
+          "🎵": "#F3E8FF",
+          "🍎": "#DCFCE7",
+          "😴": "#EDE9FE",
+          "🏃": "#FEE2E2",
+        };
+        return map[emoji] || "#F3F4F6";
+      }
+
+      function render() {
+        const done = habits.filter((h) => h.done).length;
+        const total = habits.length;
+        document.getElementById("statToday").textContent = done;
+        document.getElementById("statRate").textContent = total
+          ? Math.round((done / total) * 100) + "%"
+          : "0%";
+
+        document.getElementById("habitList").innerHTML = habits
+          .map(
+            (h) => `
+    <div class="habit-card">
+      <div class="habit-emoji" style="background:${getBg(h.emoji)}">${h.emoji}</div>
+      <div class="habit-info">
+        <div class="habit-name">${h.name}</div>
+        <div class="habit-streak">🔥 Streak <span>${h.streak} hari</span></div>
+      </div>
+      <div class="habit-dots">
+        ${h.hist
+          .slice(0, 6)
+          .map((v) => `<div class="habit-dot ${v ? "done" : ""}"></div>`)
+          .join("")}
+        <div class="habit-dot today-dot ${h.done ? "done" : ""}" onclick="toggleDone(${h.id})"></div>
+      </div>
+      <button class="habit-check ${h.done ? "done" : ""}" onclick="toggleDone(${h.id})">✓</button>
+      <button class="del-btn" onclick="deleteHabit(${h.id})">✕</button>
+    </div>
+  `,
+          )
+          .join("");
+      }
+
+      renderWeek();
+      renderHeatmap();
+      render();
+    </script>
+  </body>
+</html>
